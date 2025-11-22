@@ -23,12 +23,23 @@
             <li class="{{ Request::is('/') ? 'active' : '' }}"><a href="{{ url('/') }}">Főoldal</a></li>
             <li class="{{ Request::is('database') ? 'active' : '' }}"><a href="{{ url('/database') }}">Adatbázis</a></li>
             <li class="{{ Request::is('chart') ? 'active' : '' }}"><a href="{{ url('/chart') }}">Diagram</a></li>
-            <li class="{{ Request::is('crud') ? 'active' : '' }}"><a href="{{ url('/crud') }}">CRUD</a></li>
+            @auth
+                @if(auth()->user()->role === 'admin')
+                    <li class="{{ Request::is('crud') ? 'active' : '' }}"><a href="{{ url('/crud') }}">CRUD</a></li>
+                @endif
+            @endauth
             
-            <li class="{{ Request::is('contact') ? 'active' : '' }}"><a href="{{ url('/contact') }}">Kapcsolat</a></li>
+            <li class="{{ Request::is('kapcsolat') ? 'active' : '' }}"><a href="{{ url('/kapcsolat') }}">Kapcsolat</a></li>
             <li class="{{ Request::is('messages') ? 'active' : '' }}"><a href="{{ url('/messages') }}">Üzenetek</a></li>
+            @auth
+                @if(auth()->user()->role === 'admin')
             <li class="{{ Request::is('admin') ? 'active' : '' }}"><a href="{{ url('/admin') }}">Admin</a></li>
+                            @endif
+            @endauth
+        <!-- Bejelentkezes a profil fulon -->
+            <li class="{{Request::is('profil') ? 'active' : '' }}"><a href="{{ url('/profil') }}">Profil</a></li>                 
         </ul>
+        
         <ul class="icons">
             <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
             <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
@@ -46,7 +57,7 @@
         @endif
 
         @if(session('error'))
-            <div class="alert alert-danger" style="background: #f8d7da; color: #721c24; padding: 10px; margin: 10px 0; border: 1px solid #f5c6cb;">
+            <div id="error-toast" class="alert alert-danger" style="background: #f8d7da; color: #721c24; padding: 10px; margin: 10px 0; border: 1px solid #f5c6cb;">
                 {{ session('error') }}
             </div>
         @endif
@@ -87,5 +98,17 @@
 <script src="{{ asset('assets/js/main.js') }}"></script>
 
 @yield('scripts')
+
+@vite(['resources/js/app.tsx'])
+
+<script>
+$(document).ready(function() {
+    if ($('#error-toast').length) {
+        setTimeout(function() {
+            $('#error-toast').fadeOut(1000);
+        }, 3000);
+    }
+});
+</script>
 </body>
 </html>

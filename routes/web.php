@@ -11,7 +11,6 @@ use App\Http\Controllers\HelysegController;
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/database', [PageController::class, 'database'])->name('database');
 Route::get('/chart', [PageController::class, 'chart'])->name('chart');
-Route::resource('crud', HelysegController::class);
 
 
 //Regisztráció, bejelentkezés
@@ -38,6 +37,7 @@ Route::middleware('auth')->group(function () {
 //Szerepkör kezelés
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin', [PageController::class, 'admin'])->name('admin');
+    Route::resource('crud', HelysegController::class);
 });
 
 Route::middleware('auth')->group(function () {

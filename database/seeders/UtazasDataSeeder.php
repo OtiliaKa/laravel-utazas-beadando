@@ -9,7 +9,7 @@ class UtazasDataSeeder extends Seeder
 {
     public function run()
     {
-    
+
         // 1. Helység adatok
         DB::table('helyseg')->insert([
             ['az' => 1, 'nev' => 'Sousse', 'orszag' => 'Tunézia', 'created_at' => now(), 'updated_at' => now()],
