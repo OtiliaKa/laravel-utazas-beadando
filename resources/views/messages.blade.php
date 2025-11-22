@@ -7,14 +7,13 @@
 <article class="post featured">
     <header class="major">
         <span class="date">üzenetek</span>
-        <h2><a href="#">Üzenetek küldése</a></h2>
-        <p>Küldjön üzenetet az adminisztrátoroknak!</p>
+        <!--<h2><a href="#">Üzenetek küldése</a></h2>-->
+        <p>Itt találja az elküldött üzeneteit</p>
     </header>
 
     @auth
-        <h5>Itt találja elküldött üzeneteit</h5>
         @foreach($messages as $message)
-        <div style="background-color: gray; padding: 10px; margin:10px;">
+        <div style="background-color: rgba(54, 162, 235, 0.2); padding: 10px; margin:10px;">
             <p>{{$message->name}} - {{$message->email}}</p>
             <p>{{$message->message}}</p>
 
@@ -28,8 +27,9 @@
 
     @else
         <p>Üzenet küldéséhez jelentkezzen be!</p>
-        <form action="/login" method="POST">
+        <form action="/profil" method="POST">
             @csrf
+            <input type="hidden" name="redirect_to" value="{{ url()->current() }}">
             <input name='email' type="text" placeholder="E-mail cím" required><br>
             <input name='password' type="password" placeholder="Jelszó" required><br>
             @if ($errors->has('email'))
@@ -38,7 +38,7 @@
             @if ($errors->has('password'))
                 <p style="color: red;">{{ $errors->first('password') }}</p>
             @endif
-            <button type="submit">Bejelentkezés</button>
+            <button type="submit" name="action" value="login">Bejelentkezés</button>
         </form>
     @endauth
 </article>

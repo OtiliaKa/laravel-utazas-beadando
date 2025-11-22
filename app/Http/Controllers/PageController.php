@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Helyseg;
 use App\Models\Szalloda;
 use App\Models\Tavasz;
+use App\Models\ContactMessage;
 
 class PageController extends Controller
 {
@@ -26,11 +27,17 @@ class PageController extends Controller
     public function chart()
     {
         $szallodak = Szalloda::withCount('arak')->get();
-        
+
         $labels = $szallodak->pluck('nev');
         $data = $szallodak->pluck('arak_count');
 
         return view('chart', compact('labels', 'data'));
+    }
+
+    public function admin()
+    {
+        $messages = ContactMessage::latest()->get();
+        return view('admin', compact('messages'));
     }
 
     public function crud()
@@ -41,11 +48,12 @@ class PageController extends Controller
 
     public function profil()
     {
-        $uzenetek = [];
+        $messages = [];
         if (auth()->check()) {
-            $uzenetek = auth()->user()->userMessages()->latest()->get();
+            $messages = auth()->user()->usersMessages()->latest()->get();
         }
-        return view('profil');//, ['uzenetek' => $uzenetek]);
+
+        return view('profil', compact('messages'));
     }
 
     public function loggedIn()
@@ -76,6 +84,7 @@ class PageController extends Controller
 
         return redirect('/profil');
     }
+
 
 
 }
