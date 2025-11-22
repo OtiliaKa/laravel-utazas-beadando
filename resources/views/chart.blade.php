@@ -3,7 +3,7 @@
 @section('title', 'Diagram')
 
 @section('content')
-<article>
+<article class="post">
     <header class="major">
         <h2>Statisztikák</h2>
         <p>Szállodánkénti árajánlatok száma</p>
@@ -11,6 +11,7 @@
 
     <canvas id="myChart" width="400" height="200"></canvas>
 </article>
+@endsection
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
