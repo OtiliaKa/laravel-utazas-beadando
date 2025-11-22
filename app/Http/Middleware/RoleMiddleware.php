@@ -17,7 +17,7 @@ class RoleMiddleware
     public function handle($request, Closure $next, $role)
 {
     if (!auth()->check() || auth()->user()->role !== $role) {
-        abort(403, 'Nincs jogosultságod');
+        return redirect('/')->with('error', 'Nincs jogosultságod az admin oldal eléréséhez.');
     }
 
     return $next($request);
