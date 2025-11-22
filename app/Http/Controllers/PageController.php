@@ -38,4 +38,44 @@ class PageController extends Controller
         $helysegek = Helyseg::all();
         return view('crud', compact('helysegek'));
     }
+
+    public function profil()
+    {
+        $uzenetek = [];
+        if (auth()->check()) {
+            $uzenetek = auth()->user()->userMessages()->latest()->get();
+        }
+        return view('profil');//, ['uzenetek' => $uzenetek]);
+    }
+
+    public function loggedIn()
+    {
+        return redirect('logged-in');
+
+    }
+
+    public function loggedOut()
+    {
+        return redirect('logged-out');
+    }
+
+    public function handle(Request $request)
+    {
+        return view('profil');
+    }
+
+    public function authenticate(Request $request)
+    {
+        if ($request->action === 'login') {
+            return app(UserController::class)->login($request);
+        }
+
+        if ($request->action === 'register') {
+            return app(UserController::class)->register($request);
+        }
+
+        return redirect('/profil');
+    }
+
+
 }
